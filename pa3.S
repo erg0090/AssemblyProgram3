@@ -1,6 +1,3 @@
-// pa3.S - Recursive Factorial Calculator
-// ARMv8 assembly program that calculates the factorial of a user input integer using recursion
-
 .data
 prompt:     .asciz "Enter a non-negative integer: "
 result_msg: .asciz "Factorial: "
@@ -53,7 +50,7 @@ main:
     mov     x1, x19
     bl      printf
 
-    // Return success
+    // Exit the program
     mov     x0, #0
     b       exit
 
@@ -72,8 +69,6 @@ overflow_error:
     b       exit
 
 // Recursive factorial function
-// Input: x0 = n
-// Output: x0 = n!
 factorial:
     // Save link register and frame pointer
     stp     x29, x30, [sp, #-16]!
@@ -117,6 +112,6 @@ overflow_detect:
     b       overflow_error
 
 exit:
-    // Restore registers and return
-    ldp     x29, x30, [sp], #16
-    ret
+    mov     x8, #93                 // System call for exit
+    svc     #0                      // Invoke system call
+    
